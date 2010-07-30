@@ -28,6 +28,17 @@ my:v_0-090_00
 	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/JSON-T-0.090_00.tar.gz> ;
 	rdfs:comment    "Original version"@en .
 
+my:v_0-090_01
+
+	a               :Version ;
+	dc:issued       "2010-07-30"^^xsd:date ;
+	:revision       "0.090_01"^^xsd:string ;
+	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/JSON-T-0.090_01.tar.gz> ;
+	dcs:changeset [
+		dcs:versus my:v_0-090_00 ;
+		dcs:item   [ a dcs:Bugfix ; rdfs:label "Non-JSON-string input for transform method was not being correctly converted to JSON."@en ] 
+		] .
+
 #############################################################
 
 my:project
@@ -46,7 +57,7 @@ my:project
 	:tester         toby:i ;
 	:created        "2010-07-29"^^xsd:date ;
 	:license        <http://creativecommons.org/licenses/LGPL/2.1/> ;
-	:release        my:v_0-090_00 .
+	:release        my:v_0-090_00 , my:v_0-090_01 .
 
 #############################################################
 

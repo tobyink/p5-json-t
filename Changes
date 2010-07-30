@@ -10,5 +10,9 @@ Home page:    <http://search.cpan.org/dist/JSON-T/>
 Bug tracker:  <http://rt.cpan.org/Dist/Display.html?Queue=JSON-T>
 Maintainer:   Toby Inkster <mailto:tobyink@cpan.org>
 
+0.090_01 [2010-07-30]
+ - (Bugfix) Non-JSON-string input for transform method was not being
+   correctly converted to JSON.
+
 0.090_00 [2010-07-30]
 

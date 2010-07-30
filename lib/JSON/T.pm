@@ -7,7 +7,7 @@ use JavaScript::SpiderMonkey;
 use JSON;
 
 our $JSLIB;
-our $VERSION = '0.090_00';
+our $VERSION = '0.090_01';
 
 sub new
 {
@@ -50,7 +50,7 @@ sub new
 sub to_string
 {
 	my ($self) = @_;
-	return $self->{'transformation'};
+	return 'JsonT:#'.$self->{'name'};
 }
 
 sub parameters
@@ -72,7 +72,7 @@ sub transform
 	
 	if (ref $input)
 	{
-		$input = to_json($self);
+		$input = to_json($input);
 	}
 	
 	my $name = $self->{'name'};
