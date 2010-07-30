@@ -1,0 +1,81 @@
+NAME
+    JSON::T - transform JSON using JsonT
+
+SYNOPSIS
+     my $jsont = slurp('foo/bar.js');
+     my $input = slurp('foo/quux.json');
+     my $JSONT = JSON::T->new($jsont);
+     print $JSONT->transform($input);
+
+DESCRIPTION
+    This module implements JsonT, a language for transforming JSON-like
+    structures, analogous to XSLT in the XML world.
+
+    JsonT is described at <http://goessner.net/articles/jsont/>. JsonT is a
+    profile of Javascript; this module uses JavaScript::SpiderMonkey for
+    Javascript support.
+
+    This module provides a similar API to XML::Saxon::XSLT2.
+
+Constructor
+    "JSON::T->new($code, $name)"
+        Constructs a new JSON::T transformation. $code is the JsonT
+        Javascript code. As a JsonT file can contain multiple (potentially
+        unrelated) transformations, the name of the particular
+        transformation you want to use should also be provided. If $name is
+        omitted, then the name "_main" is assumed.
+
+Methods
+    "parameters(param1=>$arg1, param2=>$arg2, ...)"
+        Sets global variables available to the Javascript code. All
+        arguments are treated as strings.
+
+    "transform($input)"
+        Run the transformation. The input may be a JSON string, or a native
+        Perl nested arrayref/hashref structure, in which case it will be
+        stringified using the JSON module's to_json function. The output
+        (return value) will be a string.
+
+    "transform_structure($input)"
+        Like "transform", but attempts to parse the output as a JSON string
+        and return a native Perl arrayref/hashref structure. This method
+        will fail if the output is not a JSON string.
+
+Javascript Execution Environment
+    JSON::T is a profile of Javascript. This module runs scripts via
+    JavaScript::SpiderMonkey. As this is not a browser environment, many
+    global objects familiar to browser Javascript developers are not
+    available.
+
+    A single global object called "JSON" is provided with methods
+    "stringify" and "parse" compatible with the well-known json2.js library
+    (<http://www.JSON.org/json2.js>), and a method "transform(obj,jsont)"
+    that provides a Javascript JsonT implementation.
+
+    A function "print_to_perl" is provided which prints to Perl's STDOUT
+    stream.
+
+BUGS
+    Please report any bugs to <http://rt.cpan.org/>.
+
+SEE ALSO
+    Specification: <http://goessner.net/articles/jsont/>.
+
+    Related modules: JSON, JSON::Path, JSON::GRDDL.
+
+    Requires: JSON, JavaScript::SpiderMonkey.
+
+AUTHOR
+    Toby Inkster <tobyink@cpan.org>.
+
+    This module is embeds Stefan Goessner's Javascript implementation of
+    JsonT (version 0.9) to do the heavy lifting.
+
+COPYRIGHT AND LICENCE
+    Copyright 2006 Stefan Goessner.
+
+    Copyright 2008-2010 Toby Inkster.
+
+    Licensed under the Lesser GPL:
+    <http://creativecommons.org/licenses/LGPL/2.1/>.
+
