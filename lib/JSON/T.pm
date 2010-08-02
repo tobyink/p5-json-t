@@ -7,7 +7,7 @@ use JavaScript::SpiderMonkey;
 use JSON;
 
 our $JSLIB;
-our $VERSION = '0.090_01';
+our $VERSION = '0.090';
 
 sub new
 {
@@ -190,7 +190,8 @@ Please report any bugs to L<http://rt.cpan.org/>.
 
 Specification: L<http://goessner.net/articles/jsont/>.
 
-Related modules: L<JSON>, L<JSON::Path>, L<JSON::GRDDL>.
+Related modules: L<JSON>, L<JSON::Path>, L<JSON::GRDDL>,
+L<JSON::Hyper>, L<JSON::Schema>.
 
 Requires: L<JSON>, L<JavaScript::SpiderMonkey>.
 
@@ -208,7 +209,7 @@ Copyright 2006 Stefan Goessner.
 Copyright 2008-2010 Toby Inkster.
 
 Licensed under the Lesser GPL:
-<http://creativecommons.org/licenses/LGPL/2.1/>.
+L<http://creativecommons.org/licenses/LGPL/2.1/>.
 
 =cut
 
