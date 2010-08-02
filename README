@@ -12,8 +12,9 @@ DESCRIPTION
     structures, analogous to XSLT in the XML world.
 
     JsonT is described at <http://goessner.net/articles/jsont/>. JsonT is a
-    profile of Javascript; this module uses JavaScript::SpiderMonkey for
-    Javascript support.
+    profile of Javascript; this module uses the pure Perl Javascript
+    implementation JE for Javascript support. An alternative implementation
+    using Mozilla's libjs is provided as JSON::T::SpiderMonkey.
 
     This module provides a similar API to XML::Saxon::XSLT2.
 
@@ -42,10 +43,9 @@ Methods
         will fail if the output is not a JSON string.
 
 Javascript Execution Environment
-    JSON::T is a profile of Javascript. This module runs scripts via
-    JavaScript::SpiderMonkey. As this is not a browser environment, many
-    global objects familiar to browser Javascript developers are not
-    available.
+    JSON::T is a profile of Javascript. This module runs scripts via JE. As
+    this is not a browser environment, many global objects familiar to
+    browser Javascript developers are not available.
 
     A single global object called "JSON" is provided with methods
     "stringify" and "parse" compatible with the well-known json2.js library
@@ -61,9 +61,10 @@ BUGS
 SEE ALSO
     Specification: <http://goessner.net/articles/jsont/>.
 
-    Related modules: JSON, JSON::Path, JSON::GRDDL.
+    Related modules: JSON, JSON::Path, JSON::GRDDL, JSON::Hyper,
+    JSON::Schema.
 
-    Requires: JSON, JavaScript::SpiderMonkey.
+    Requires: JSON, JE.
 
 AUTHOR
     Toby Inkster <tobyink@cpan.org>.

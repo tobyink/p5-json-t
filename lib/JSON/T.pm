@@ -1,13 +1,14 @@
 package JSON::T;
 
+use 5.008;
 use common::sense;
 use overload '""' => \&to_string;
 
-use JavaScript::SpiderMonkey;
+use JE;
 use JSON;
 
 our $JSLIB;
-our $VERSION = '0.090';
+our $VERSION = '0.090_02';
 
 sub new
 {
@@ -21,7 +22,7 @@ sub new
 		$JSLIB = <DATA>;
 	}
 
-	my $JS = JavaScript::SpiderMonkey->new();
+	my $JS = JE->new;
 	my $self = bless {
 		code           => $transformation_code ,
 		name           => $transformation_name ,
@@ -30,13 +31,12 @@ sub new
 		messages       => [],
 		}, $class;
 
-	$JS->init;
-	$JS->function_set("return_to_perl", sub
+	$JS->new_function("return_to_perl", sub
 		{
 			my $v = shift;
 			$self->{'output'} = $v;
 		});
-	$JS->function_set("print_to_perl", sub
+	$JS->new_function("print_to_perl", sub
 		{
 			print @_;
 		});
@@ -62,7 +62,10 @@ sub parameters
 		{
 			$v = $v->[1];
 		}
-		$self->{'engine'}->property_by_path($k, "$v");
+		$self->{'engine'}->eval("var $k;");
+		$self->{'engine'}->eval($k)->set(
+			JE::Object::String->new($self->{'engine'}, $v)
+			);
 	}
 }
 
@@ -123,8 +126,9 @@ This module implements JsonT, a language for transforming JSON-like
 structures, analogous to XSLT in the XML world.
 
 JsonT is described at L<http://goessner.net/articles/jsont/>. JsonT is
-a profile of Javascript; this module uses L<JavaScript::SpiderMonkey>
-for Javascript support.
+a profile of Javascript; this module uses the pure Perl Javascript
+implementation L<JE> for Javascript support. An alternative implementation
+using Mozilla's libjs is provided as L<JSON::T::SpiderMonkey>.
 
 This module provides a similar API to L<XML::Saxon::XSLT2>.
 
@@ -169,9 +173,8 @@ if the output is not a JSON string.
 =head1 Javascript Execution Environment
 
 JSON::T is a profile of Javascript. This module runs scripts via
-L<JavaScript::SpiderMonkey>. As this is not a browser environment,
-many global objects familiar to browser Javascript developers are
-not available.
+L<JE>. As this is not a browser environment, many global objects
+familiar to browser Javascript developers are not available.
 
 A single global object called "JSON" is provided with methods
 C<stringify> and C<parse> compatible with the well-known json2.js
@@ -193,7 +196,7 @@ Specification: L<http://goessner.net/articles/jsont/>.
 Related modules: L<JSON>, L<JSON::Path>, L<JSON::GRDDL>,
 L<JSON::Hyper>, L<JSON::Schema>.
 
-Requires: L<JSON>, L<JavaScript::SpiderMonkey>.
+Requires: L<JSON>, L<JE>.
 
 =head1 AUTHOR
 

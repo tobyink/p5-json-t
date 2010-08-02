@@ -1,5 +1,7 @@
-package JSON::T;
+package JSON::T::SpiderMonkey;
 
+use 5.008;
+use base qw[JSON::T];
 use common::sense;
 use overload '""' => \&to_string;
 
@@ -7,7 +9,7 @@ use JavaScript::SpiderMonkey;
 use JSON;
 
 our $JSLIB;
-our $VERSION = '0.090';
+our $VERSION = '0.090_02';
 
 sub new
 {
@@ -47,12 +49,6 @@ sub new
 	return $self;
 }
 
-sub to_string
-{
-	my ($self) = @_;
-	return 'JsonT:#'.$self->{'name'};
-}
-
 sub parameters
 {
 	my ($self, %args) = @_;
@@ -66,121 +62,16 @@ sub parameters
 	}
 }
 
-sub transform
-{
-	my ($self, $input) = @_;
-	
-	if (ref $input)
-	{
-		$input = to_json($input);
-	}
-	
-	my $name = $self->{'name'};
-	my $rv1  = $self->{'engine'}->eval("return_to_perl(JSON.transform($input, $name));");
-
-	return $self->{'output'};
-}
-
-sub transform_structure
-{
-	my ($self, $input) = @_;
-	my $output = $self->transform($input);
-	return from_json($output);
-}
-*transform_document = \&transform_structure;
-
-# none of this is useful, but provided for XML::Saxon::XSLT2 compat.
-sub messages
-{
-	return;
-}
-sub media_type
-{
-	my ($self, $default) = @_;
-	return $default;
-}
-*version        = \&media_type;
-*doctype_system = \&media_type;
-*doctype_public = \&media_type;
-*encoding       = \&media_type;
-
 1;
 
 =head1 NAME
 
-JSON::T - transform JSON using JsonT
-
-=head1 SYNOPSIS
-
- my $jsont = slurp('foo/bar.js');
- my $input = slurp('foo/quux.json');
- my $JSONT = JSON::T->new($jsont);
- print $JSONT->transform($input);
+JSON::T::SpiderMonkey - transform JSON using JsonT and SpiderMonkey (libjs)
 
 =head1 DESCRIPTION
 
-This module implements JsonT, a language for transforming JSON-like
-structures, analogous to XSLT in the XML world.
-
-JsonT is described at L<http://goessner.net/articles/jsont/>. JsonT is
-a profile of Javascript; this module uses L<JavaScript::SpiderMonkey>
-for Javascript support.
-
-This module provides a similar API to L<XML::Saxon::XSLT2>.
-
-=head1 Constructor
-
-=over 4
-
-=item C<< JSON::T->new($code, $name) >>
-
-Constructs a new JSON::T transformation. $code is the JsonT Javascript
-code. As a JsonT file can contain multiple (potentially unrelated)
-transformations, the name of the particular transformation you want to
-use should also be provided. If $name is omitted, then the name "_main"
-is assumed.
-
-=back
-
-=head1 Methods
-
-=over 4
-
-=item C<< parameters(param1=>$arg1, param2=>$arg2, ...) >>
-
-Sets global variables available to the Javascript code. All arguments
-are treated as strings.
-
-=item C<< transform($input) >>
-
-Run the transformation. The input may be a JSON string, or a native Perl
-nested arrayref/hashref structure, in which case it will be stringified
-using the JSON module's to_json function. The output (return value) will
-be a string.
-
-=item C<< transform_structure($input) >>
-
-Like C<transform>, but attempts to parse the output as a JSON string and
-return a native Perl arrayref/hashref structure. This method will fail
-if the output is not a JSON string.
-
-=back
-
-=head1 Javascript Execution Environment
-
-JSON::T is a profile of Javascript. This module runs scripts via
-L<JavaScript::SpiderMonkey>. As this is not a browser environment,
-many global objects familiar to browser Javascript developers are
-not available.
-
-A single global object called "JSON" is provided with methods
-C<stringify> and C<parse> compatible with the well-known json2.js
-library (L<http://www.JSON.org/json2.js>), and a method
-C<transform(obj,jsont)> that provides a Javascript JsonT
-implementation.
-
-A function C<print_to_perl> is provided which prints to Perl's
-STDOUT stream.
+This module uses L<JavaScript::SpiderMonkey> to provide JavaScript support;
+otherwise it's the same as L<JSON::T>.
 
 =head1 BUGS
 

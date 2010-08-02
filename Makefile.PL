@@ -15,9 +15,11 @@ author              'Toby Inkster <tobyink@cpan.org>';
 license             'lgpl';
 
 requires            'common::sense'      => '1.00';
-requires            'JavaScript::SpiderMonkey' => '0.19';
+requires            'JE'                 => '0.049';
 requires            'JSON'               => '2.00';
 test_requires       'Test::More'         => '0.61';
+
+keywords 'JSON', 'transform', 'JsonT', 'Javascript';
 
 resources(
 	'homepage'   => "http://search.cpan.org/dist/$dist/",

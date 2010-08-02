@@ -13,6 +13,8 @@ my $json = <<'JSON';
 JSON
 
 my $jsont = <<'JSONT';
+var namePrefix = "";
+
 var People =
 {
 	"self" : function(x)
@@ -43,7 +45,7 @@ var Person =
 				"http://xmlns.com/foaf/0.1/name" :
 				[{
 					"type" : "literal" ,
-					"value" : x.name
+					"value" : namePrefix + x.name
 				}],
 				"http://xmlns.com/foaf/0.1/mbox" :
 				[{
@@ -60,4 +62,5 @@ var _main = Person;
 JSONT
 
 my $T = JSON::T->new($jsont);
+## $T->parameters(namePrefix => 'Mr ');
 say Dumper($T->transform_structure($json));

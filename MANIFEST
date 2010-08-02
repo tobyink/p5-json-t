@@ -27,3 +27,4 @@ inc/Module/Install/WriteAll.pm
 inc/Test/Signature.pm
 
 lib/JSON/T.pm
+lib/JSON/T/SpiderMonkey.pm
