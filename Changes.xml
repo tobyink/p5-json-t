@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rdf:RDF xmlns:dbug="http://ontologi.es/doap-bugs#" xmlns:dc="http://purl.org/dc/terms/" xmlns:dcs="http://ontologi.es/doap-changeset#" xmlns:doap="http://usefulinc.com/ns/doap#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
-<rdf:Description rdf:nodeID="rD199374A9E7F11DFAE75977ABD853821r0">
-	<dcs:item rdf:nodeID="rD199374A9E7F11DFAE75977ABD853821r1"/>
+<rdf:Description rdf:nodeID="r5FD50B50A4CB11DF8558BB17469F6638r0">
+	<dcs:item rdf:nodeID="r5FD50B50A4CB11DF8558BB17469F6638r1"/>
 	<dcs:versus rdf:resource="http://purl.org/NET/cpan-uri/dist/JSON-T/v_0-090_00"/>
 </rdf:Description>
-<rdf:Description rdf:nodeID="rD199374A9E7F11DFAE75977ABD853821r1">
+<rdf:Description rdf:nodeID="r5FD50B50A4CB11DF8558BB17469F6638r1">
 	<rdf:type rdf:resource="http://ontologi.es/doap-changeset#Bugfix"/>
 	<rdfs:label xml:lang="en">Non-JSON-string input for transform method was not being correctly converted to JSON.</rdfs:label>
 </rdf:Description>
-<rdf:Description rdf:nodeID="rD199374A9E7F11DFAE75977ABD853821r2">
-	<dcs:item rdf:nodeID="rD199374A9E7F11DFAE75977ABD853821r3"/>
+<rdf:Description rdf:nodeID="r5FD50B50A4CB11DF8558BB17469F6638r2">
+	<dcs:item rdf:nodeID="r5FD50B50A4CB11DF8558BB17469F6638r3"/>
 	<dcs:versus rdf:resource="http://purl.org/NET/cpan-uri/dist/JSON-T/v_0-090_01"/>
 </rdf:Description>
-<rdf:Description rdf:nodeID="rD199374A9E7F11DFAE75977ABD853821r3">
+<rdf:Description rdf:nodeID="r5FD50B50A4CB11DF8558BB17469F6638r3">
 	<rdfs:label xml:lang="en">Switched from JavaScript::SpiderMonkey to JE - SpiderMonkey version is retained for those that want it.</rdfs:label>
 </rdf:Description>
-<rdf:Description rdf:nodeID="rD199374A9E7F11DFAE75977ABD853821r4">
+<rdf:Description rdf:nodeID="r5FD50B50A4CB11DF8558BB17469F6638r4">
+	<dcs:item rdf:nodeID="r5FD50B50A4CB11DF8558BB17469F6638r5"/>
+	<dcs:versus rdf:resource="http://purl.org/NET/cpan-uri/dist/JSON-T/v_0-090_02"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="r5FD50B50A4CB11DF8558BB17469F6638r5">
+	<rdfs:label xml:lang="en">Additional debugging info added to tests.</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:nodeID="r5FD50B50A4CB11DF8558BB17469F6638r6">
 	<doap:browse rdf:resource="http://goddamn.co.uk/viewvc/perlmods/JSON-T/"/>
 	<rdf:type rdf:resource="http://usefulinc.com/ns/doap#SVNRepository"/>
 </rdf:Description>
@@ -39,7 +46,8 @@
 	<doap:release rdf:resource="http://purl.org/NET/cpan-uri/dist/JSON-T/v_0-090_00"/>
 	<doap:release rdf:resource="http://purl.org/NET/cpan-uri/dist/JSON-T/v_0-090_01"/>
 	<doap:release rdf:resource="http://purl.org/NET/cpan-uri/dist/JSON-T/v_0-090_02"/>
-	<doap:repository rdf:nodeID="rD199374A9E7F11DFAE75977ABD853821r4"/>
+	<doap:release rdf:resource="http://purl.org/NET/cpan-uri/dist/JSON-T/v_0-090_03"/>
+	<doap:repository rdf:nodeID="r5FD50B50A4CB11DF8558BB17469F6638r6"/>
 	<doap:shortdesc xml:lang="en">transform JSON using JsonT</doap:shortdesc>
 	<doap:tester rdf:resource="http://tobyinkster.co.uk/#i"/>
 	<rdf:type rdf:resource="http://usefulinc.com/ns/doap#Project"/>
@@ -52,17 +60,24 @@
 	<rdfs:comment xml:lang="en">Original version</rdfs:comment>
 </rdf:Description>
 <rdf:Description rdf:about="http://purl.org/NET/cpan-uri/dist/JSON-T/v_0-090_01">
-	<dcs:changeset rdf:nodeID="rD199374A9E7F11DFAE75977ABD853821r0"/>
+	<dcs:changeset rdf:nodeID="r5FD50B50A4CB11DF8558BB17469F6638r0"/>
 	<dc:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2010-07-30</dc:issued>
 	<doap:file-release rdf:resource="http://backpan.cpan.org/authors/id/T/TO/TOBYINK/JSON-T-0.090_01.tar.gz"/>
 	<doap:revision rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.090_01</doap:revision>
 	<rdf:type rdf:resource="http://usefulinc.com/ns/doap#Version"/>
 </rdf:Description>
 <rdf:Description rdf:about="http://purl.org/NET/cpan-uri/dist/JSON-T/v_0-090_02">
-	<dcs:changeset rdf:nodeID="rD199374A9E7F11DFAE75977ABD853821r2"/>
+	<dcs:changeset rdf:nodeID="r5FD50B50A4CB11DF8558BB17469F6638r2"/>
 	<dc:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2010-08-02</dc:issued>
 	<doap:file-release rdf:resource="http://backpan.cpan.org/authors/id/T/TO/TOBYINK/JSON-T-0.090_02.tar.gz"/>
 	<doap:revision rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.090_02</doap:revision>
+	<rdf:type rdf:resource="http://usefulinc.com/ns/doap#Version"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.org/NET/cpan-uri/dist/JSON-T/v_0-090_03">
+	<dcs:changeset rdf:nodeID="r5FD50B50A4CB11DF8558BB17469F6638r4"/>
+	<dc:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2010-08-10</dc:issued>
+	<doap:file-release rdf:resource="http://backpan.cpan.org/authors/id/T/TO/TOBYINK/JSON-T-0.090_03.tar.gz"/>
+	<doap:revision rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.090_03</doap:revision>
 	<rdf:type rdf:resource="http://usefulinc.com/ns/doap#Version"/>
 </rdf:Description>
 <rdf:Description xmlns:ns1="http://www.w3.org/2002/07/owl#" rdf:about="http://tobyinkster.co.uk/#i">

@@ -57,7 +57,7 @@ var _main = Person;
 JSONT
 
 my $T = JSON::T->new($jsont);
-my $R = $T->transform_structure($json);
+my $R = $T->transform_structure($json, 'debug');
 
 ok($R, 'returned something that smelt like JSON');
 is($R->{'_:Contact'}->{'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'}->[0]->{'type'},

@@ -9,7 +9,7 @@ use JavaScript::SpiderMonkey;
 use JSON;
 
 our $JSLIB;
-our $VERSION = '0.090_02';
+our $VERSION = '0.090_03';
 
 sub new
 {
