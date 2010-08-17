@@ -8,7 +8,7 @@ use JE;
 use JSON qw[];
 
 our $JSLIB;
-our $VERSION = '0.090_03';
+our $VERSION = '0.090_04';
 
 sub new
 {
@@ -79,7 +79,7 @@ sub transform
 	my $name = $self->{'name'};
 	my $rv1  = $self->{'engine'}->eval("return_to_perl(JSON.transform($input, $name));");
 
-	return $self->{'output'};
+	return $self->{'output'}.''; # stringify
 }
 
 sub transform_structure

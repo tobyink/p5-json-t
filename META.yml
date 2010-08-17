@@ -33,4 +33,4 @@ resources:
   homepage: http://search.cpan.org/dist/JSON-T/
   license: http://opensource.org/licenses/lgpl-license.php
   repository: http://goddamn.co.uk/viewvc/perlmods/JSON-T/
-version: 0.090_03
+version: 0.090_04

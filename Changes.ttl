@@ -61,6 +61,17 @@ my:v_0-090_03
 		dcs:item   [ rdfs:label "Additional debugging info added to tests."@en ] 
 		] .
 
+my:v_0-090_04
+
+	a               :Version ;
+	dc:issued       "2010-08-15"^^xsd:date ;
+	:revision       "0.090_04"^^xsd:string ;
+	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/JSON-T-0.090_04.tar.gz> ;
+	dcs:changeset [
+		dcs:versus my:v_0-090_03 ;
+		dcs:item   [ rdfs:label "Force stringification of return value of transform method. Pesky JE::String values!"@en ] 
+		] .
+
 #############################################################
 
 my:project
@@ -74,12 +85,12 @@ my:project
 	:bug-database   <http://rt.cpan.org/Dist/Display.html?Queue=JSON-T> ;
 	:repository     [ a :SVNRepository ; :browse <http://goddamn.co.uk/viewvc/perlmods/JSON-T/> ] ;
 	:maintainer     toby:i ;
-	:developer      toby:i ;
+	:developer      toby:i , [ a foaf:Person ; foaf:name "Stefan Goessner" ; foaf:homepage <http://goessner.net/> ] ;
 	:documenter     toby:i ;
 	:tester         toby:i ;
 	:created        "2010-07-29"^^xsd:date ;
 	:license        <http://creativecommons.org/licenses/LGPL/2.1/> ;
-	:release        my:v_0-090_00 , my:v_0-090_01 , my:v_0-090_02 , my:v_0-090_03 .
+	:release        my:v_0-090_00 , my:v_0-090_01 , my:v_0-090_02 , my:v_0-090_03 , my:v_0-090_04 .
 
 #############################################################
 
