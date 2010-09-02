@@ -32,10 +32,10 @@ Methods
         arguments are treated as strings.
 
     "transform($input)"
-        Run the transformation. The input may be a JSON string, or a native
-        Perl nested arrayref/hashref structure, in which case it will be
-        stringified using the JSON module's to_json function. The output
-        (return value) will be a string.
+        Run the transformation. The input may be a JSON string, a
+        JSON::JOM::Node or a native Perl nested arrayref/hashref structure,
+        in which case it will be stringified using the JSON module's to_json
+        function. The output (return value) will be a string.
 
     "transform_structure($input)"
         Like "transform", but attempts to parse the output as a JSON string
@@ -63,6 +63,8 @@ SEE ALSO
 
     Related modules: JSON, JSON::Path, JSON::GRDDL, JSON::Hyper,
     JSON::Schema.
+
+    JOM version: JSON::JOM, JSON::JOM::Plugins::JsonT.
 
     Requires: JSON, JE.
 

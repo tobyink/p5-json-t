@@ -6,9 +6,10 @@ use overload '""' => \&to_string;
 
 use JE;
 use JSON qw[];
+use Scalar::Util qw[];
 
 our $JSLIB;
-our $VERSION = '0.090_04';
+our $VERSION = '0.100';
 
 sub new
 {
@@ -73,8 +74,14 @@ sub transform
 {
 	my ($self, $input) = @_;
 	
-	$input = JSON::to_json($input)
-		if ref $input;
+	if (Scalar::Util::blessed($input) and $input->isa('JSON::JOM::Node'))
+	{
+		$input = JSON::to_json($input, {convert_blessed=>1});
+	}
+	elsif (ref $input)
+	{
+		$input = JSON::to_json($input);
+	}
 	
 	my $name = $self->{'name'};
 	my $rv1  = $self->{'engine'}->eval("return_to_perl(JSON.transform($input, $name));");
@@ -157,10 +164,10 @@ are treated as strings.
 
 =item C<< transform($input) >>
 
-Run the transformation. The input may be a JSON string, or a native Perl
-nested arrayref/hashref structure, in which case it will be stringified
-using the JSON module's to_json function. The output (return value) will
-be a string.
+Run the transformation. The input may be a JSON string, a JSON::JOM::Node
+or a native Perl nested arrayref/hashref structure, in which case it will be
+stringified using the JSON module's to_json function. The output (return value)
+will be a string.
 
 =item C<< transform_structure($input) >>
 
@@ -195,6 +202,8 @@ Specification: L<http://goessner.net/articles/jsont/>.
 
 Related modules: L<JSON>, L<JSON::Path>, L<JSON::GRDDL>,
 L<JSON::Hyper>, L<JSON::Schema>.
+
+JOM version: L<JSON::JOM>, L<JSON::JOM::Plugins::JsonT>.
 
 Requires: L<JSON>, L<JE>.
 

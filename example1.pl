@@ -2,6 +2,7 @@ use 5.010;
 use lib "lib";
 use Data::Dumper;
 use JSON;
+use JSON::JOM;
 use JSON::T;
 
 my $json = <<'JSON';
@@ -63,4 +64,4 @@ JSONT
 
 my $T = JSON::T->new($jsont);
 ## $T->parameters(namePrefix => 'Mr ');
-say Dumper($T->transform_structure($json));
+say Dumper($T->transform_structure(JSON::JOM::from_json($json)));

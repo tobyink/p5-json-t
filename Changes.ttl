@@ -72,6 +72,17 @@ my:v_0-090_04
 		dcs:item   [ rdfs:label "Force stringification of return value of transform method. Pesky JE::String values!"@en ] 
 		] .
 
+my:v_0-100
+
+	a               :Version ;
+	dc:issued       "2010-09-02"^^xsd:date ;
+	:revision       "0.100"^^xsd:string ;
+	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/JSON-T-0.100.tar.gz> ;
+	dcs:changeset [
+		dcs:versus my:v_0-090_04 ;
+		dcs:item   [ rdfs:label "Accept JSON::JOM as input to transformations."@en ] 
+		] .
+
 #############################################################
 
 my:project
@@ -90,7 +101,8 @@ my:project
 	:tester         toby:i ;
 	:created        "2010-07-29"^^xsd:date ;
 	:license        <http://creativecommons.org/licenses/LGPL/2.1/> ;
-	:release        my:v_0-090_00 , my:v_0-090_01 , my:v_0-090_02 , my:v_0-090_03 , my:v_0-090_04 .
+	:release        my:v_0-090_00 , my:v_0-090_01 , my:v_0-090_02 , my:v_0-090_03 , my:v_0-090_04 ,
+	                my:v_0-100 .
 
 #############################################################
 
