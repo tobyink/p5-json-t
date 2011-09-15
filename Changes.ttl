@@ -91,10 +91,10 @@ my:project
 	:name           "JSON-T" ;
 	:shortdesc      "transform JSON using JsonT"@en ;
 	:programming-language  "Perl" ;
-	:homepage       <http://search.cpan.org/dist/JSON-T/> ;
-	:download-page  <http://search.cpan.org/dist/JSON-T/> ;
+	:homepage       <https://metacpan.org/release/JSON-T> ;
+	:download-page  <https://metacpan.org/release/JSON-T> ;
 	:bug-database   <http://rt.cpan.org/Dist/Display.html?Queue=JSON-T> ;
-	:repository     [ a :SVNRepository ; :browse <http://goddamn.co.uk/viewvc/perlmods/JSON-T/> ] ;
+	:repository     [ a :SVNRepository ; :browse <http://goddamn.co.uk/svn-web/perlmods/browse/JSON-T/> ] ;
 	:maintainer     toby:i ;
 	:developer      toby:i , [ a foaf:Person ; foaf:name "Stefan Goessner" ; foaf:homepage <http://goessner.net/> ] ;
 	:documenter     toby:i ;
@@ -111,7 +111,7 @@ toby:i
 	a               foaf:Person ;
 	foaf:name       "Toby Inkster" ;
 	foaf:homepage   <http://tobyinkster.co.uk/> ;
-	foaf:page       <http://search.cpan.org/~tobyink/> ;
+	foaf:page       <https://metacpan.org/author/TOBYINK> ;
 	foaf:mbox       <mailto:tobyink@cpan.org> ;
 	<http://www.w3.org/2002/07/owl#sameAs> <http://purl.org/NET/cpan-uri/person/tobyink> .
 

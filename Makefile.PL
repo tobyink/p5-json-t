@@ -22,8 +22,8 @@ test_requires       'Test::More'         => '0.61';
 keywords 'JSON', 'transform', 'JsonT', 'Javascript';
 
 resources(
-	'homepage'   => "http://search.cpan.org/dist/$dist/",
-	'repository' => "http://goddamn.co.uk/viewvc/perlmods/$dist/",
+	'homepage'   => "https://metacpan.org/release/$dist",
+	'repository' => "http://goddamn.co.uk/svn-web/perlmods/browse/$dist/",
 	'bugtracker' => "http://rt.cpan.org/Dist/Display.html?Queue=$dist",
 	);
 	
