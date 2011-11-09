@@ -1,7 +1,7 @@
 package JSON::T::SpiderMonkey;
 
 use 5.008;
-use base qw[JSON::T];
+use parent qw[JSON::T];
 use common::sense;
 use overload '""' => \&to_string;
 
