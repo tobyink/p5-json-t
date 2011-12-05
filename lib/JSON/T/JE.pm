@@ -2,12 +2,17 @@ package JSON::T::JE;
 
 use 5.010;
 use common::sense;
-use strict;
+use utf8;
 
 use JE;
-use JSON;
 
 use parent qw[JSON::T];
+
+BEGIN
+{
+	$JSON::T::JE::AUTHORITY = 'cpan:TOBYINK';
+	$JSON::T::JE::VERSION   = '0.101';
+}
 
 sub init
 {
@@ -58,6 +63,18 @@ JSON::T::JE - transform JSON using JsonT and JE
 =head1 DESCRIPTION
 
 This module uses L<JE> to provide JavaScript support.
+
+Implements:
+
+=over
+
+=item C<init>
+
+=item C<engine_eval>
+
+=item C<parameters>
+
+=back
 
 =head1 BUGS
 

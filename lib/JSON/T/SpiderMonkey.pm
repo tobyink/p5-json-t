@@ -1,13 +1,18 @@
 package JSON::T::SpiderMonkey;
 
 use 5.010;
-use parent qw[JSON::T];
 use common::sense;
+use utf8;
 
 use JavaScript::SpiderMonkey;
-use JSON;
 
-our $VERSION = '0.100';
+use parent qw[JSON::T];
+
+BEGIN
+{
+	$JSON::T::SpiderMonkey::AUTHORITY = 'cpan:TOBYINK';
+	$JSON::T::SpiderMonkey::VERSION   = '0.101';
+}
 
 sub init
 {
@@ -56,6 +61,18 @@ JSON::T::SpiderMonkey - transform JSON using JsonT and SpiderMonkey (libjs)
 =head1 DESCRIPTION
 
 This module uses L<JavaScript::SpiderMonkey> to provide JavaScript support.
+
+Implements:
+
+=over
+
+=item C<init>
+
+=item C<engine_eval>
+
+=item C<parameters>
+
+=back
 
 =head1 BUGS
 

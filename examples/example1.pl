@@ -1,19 +1,16 @@
 use 5.010;
-use lib "lib";
-use Data::Dumper;
-use JSON;
 use JSON::JOM;
 use JSON::T;
 
-my $json = <<'JSON';
+my $input = JSON::JOM::from_json(<<'JSON');
 {
-	"$transformation" : "http://buzzword.org.uk/2008/jsonGRDDL/jsont-sample#Person" ,
-	"name" : "Joe Bloggs" ,
-	"mbox" : "joe@example.net" 
+	"$transformation": "http://buzzword.org.uk/2008/jsonGRDDL/jsont-sample#Person",
+	"name": "Joe Bloggs",
+	"mbox": "joe@example.net" 
 }
 JSON
 
-my $jsont = <<'JSONT';
+my $transformation = <<'JSONT';
 var namePrefix = "";
 
 var People =
@@ -62,6 +59,10 @@ var Person =
 var _main = Person;
 JSONT
 
-my $T = JSON::T->new($jsont);
-## $T->parameters(namePrefix => 'Mr ');
-say Dumper($T->transform_structure(JSON::JOM::from_json($json)));
+my $T    = JSON::T->new($transformation);
+$T->parameters(namePrefix => 'Mr ');
+
+my $output = JSON::JOM::to_jom($T->transform_structure($input));
+
+say "#### $T";
+say $output->dump;

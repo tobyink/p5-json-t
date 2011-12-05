@@ -1,0 +1,38 @@
+@prefix :        <http://usefulinc.com/ns/doap#> .
+@prefix dcs:     <http://ontologi.es/doap-changeset#> .
+@prefix dc:      <http://purl.org/dc/terms/> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+@prefix my:      <http://purl.org/NET/cpan-uri/dist/JSON-T/> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix toby:    <http://tobyinkster.co.uk/#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+my:project
+	a               :Project ;
+	:name           "JSON-T" ;
+	:shortdesc      "transform JSON using JsonT"@en ;
+	:programming-language  "Perl", "Javascript" ;
+	:homepage       <https://metacpan.org/release/JSON-T> ;
+	:download-page  <https://metacpan.org/release/JSON-T> ;
+	:bug-database   <http://rt.cpan.org/Dist/Display.html?Queue=JSON-T> ;
+	:repository     [ a :HgRepository ; :browse <https://bitbucket.org/tobyink/p5-json-t> ] ;
+	:maintainer     toby:i ;
+	:developer      toby:i , [ a foaf:Person ; foaf:name "Stefan Goessner" ; foaf:homepage <http://goessner.net/> ] ;
+	:documenter     toby:i ;
+	:tester         toby:i ;
+	:created        "2010-07-29"^^xsd:date ;
+	:license        <http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt> ;
+	:category
+		[ rdfs:label "JSON" ] ,
+		[ rdfs:label "Transform" ] ,
+		[ rdfs:label "JsonT" ] ,
+		[ rdfs:label "ECMAScript" ] ,
+		[ rdfs:label "JavaScript" ] .
+
+toby:i
+	a               foaf:Person ;
+	foaf:name       "Toby Inkster" ;
+	foaf:homepage   <http://tobyinkster.co.uk/> ;
+	foaf:page       <https://metacpan.org/author/TOBYINK> ;
+	foaf:mbox       <mailto:tobyink@cpan.org> ;
+	<http://www.w3.org/2002/07/owl#sameAs> <http://purl.org/NET/cpan-uri/person/tobyink> .

@@ -2,20 +2,22 @@ package JSON::T;
 
 use 5.010;
 use common::sense;
-use overload '""' => \&_to_string;
+use utf8;
 
 use Class::Load qw[];
 use JSON qw[];
-use Object::AUTHORITY;
 use Scalar::Util qw[];
 
-our $JSLIB;
-our @Implementations;
+use Object::AUTHORITY;
+use overload '""' => \&_to_string;
 
 BEGIN
 {
-	push @Implementations, qw/JSON::T::JE JSON::T::SpiderMonkey/;
+	$JSON::T::AUTHORITY = 'cpan:TOBYINK';
+	$JSON::T::VERSION   = '0.101';
 }
+
+our ($JSLIB, @Implementations);
 
 sub _load_lib
 {
@@ -24,6 +26,18 @@ sub _load_lib
 		local $/ = undef;
 		$JSLIB = <DATA>;
 	}
+}
+
+BEGIN
+{
+	push @Implementations, qw/JSON::T::JE JSON::T::SpiderMonkey/;
+}
+
+sub DOES
+{
+	my ($class, $role) = @_;
+	return $role if $role eq 'XML::Saxon::XSLT2';
+	return $class->SUPER::DOES($role);
 }
 
 sub new
@@ -218,6 +232,14 @@ Like C<transform>, but attempts to parse the output as a JSON string and
 return a native Perl arrayref/hashref structure. This method will fail
 if the output is not a JSON string.
 
+=item C<< DOES($role) >>
+
+Like L<UNIVERSAL>'s DOES method, but returns true for:
+
+  JSON::T->DOES('XML::Saxon::XSLT2')
+
+as an aid for polymorphism.
+
 =back
 
 The following methods also exist for compatibility with XML::Saxon::XSLT2,
@@ -305,6 +327,8 @@ in the object's Javascript execution context. Parameter types and additional
 hints may be used to set the correct types in Javascript.
 
 =back
+
+You are unlikely to need to do anything else when subclassing.
 
 If you wish C<< JSON::T->new >> to know about your subclass, then push
 its name onto C<< @JSON::T::Implementations >>.
