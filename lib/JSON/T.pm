@@ -1,73 +1,99 @@
 package JSON::T;
 
-use 5.008;
+use 5.010;
 use common::sense;
-use overload '""' => \&to_string;
+use overload '""' => \&_to_string;
 
-use JE;
+use Class::Load qw[];
 use JSON qw[];
+use Object::AUTHORITY;
 use Scalar::Util qw[];
 
 our $JSLIB;
-our $VERSION = '0.100';
+our @Implementations;
 
-sub new
+BEGIN
 {
-	my ($class, $transformation_code, $transformation_name) = @_;
+	push @Implementations, qw/JSON::T::JE JSON::T::SpiderMonkey/;
+}
 
-	$transformation_name ||= '_main';
-
+sub _load_lib
+{
 	unless ($JSLIB)
 	{
 		local $/ = undef;
 		$JSLIB = <DATA>;
 	}
+}
 
-	my $JS = JE->new;
+sub new
+{
+	my ($class, $transformation_code, $transformation_name) = @_;
+	$transformation_name ||= '_main';
+
+	my $impl_class;
+	if ($class eq __PACKAGE__)
+	{
+		IMPL: for my $i (@Implementations)
+		{
+			if (Class::Load::is_class_loaded($i)
+			or  Class::Load::try_load_class($i))
+			{
+				$impl_class = $i;
+				last IMPL;
+			}
+		}
+		
+		# let Class::Load break the bad news
+		unless (defined $impl_class)
+		{
+			$impl_class = $Implementations[0];
+			Class::Load::load_class($impl_class);
+		}
+	}
+	else
+	{
+		$impl_class = $class;
+	}
+	
 	my $self = bless {
 		code           => $transformation_code ,
 		name           => $transformation_name ,
-		engine         => $JS ,
-		output         => undef ,
 		messages       => [],
-		}, $class;
-
-	$JS->new_function("return_to_perl", sub
-		{
-			my $v = shift;
-			$self->{'output'} = $v;
-		});
-	$JS->new_function("print_to_perl", sub
-		{
-			print @_;
-		});
-
-	my $rv1 = $JS->eval($JSLIB);
-	my $rv2 = $JS->eval($transformation_code);
+		}, $impl_class;
 	
+	$self->init;
+	$self->engine_eval($transformation_code);
 	return $self;
 }
 
-sub to_string
+sub init
+{
+	my ($self) = @_;
+	_load_lib;
+	$self->engine_eval($JSLIB);
+	return $self;
+}
+
+sub engine_eval { die "must be implemented by subclass" }
+sub parameters { warn "not implemented by subclass" } # non-fatal
+
+sub _accept_return_value
+{
+	my ($self, $value) = @_;
+	$self->{return_value} = $value;
+}
+
+sub _last_return_value
+{
+	my ($self) = @_;
+	$self->{return_value};
+}
+
+sub _to_string
 {
 	my ($self) = @_;
 	return 'JsonT:#'.$self->{'name'};
-}
-
-sub parameters
-{
-	my ($self, %args) = @_;
-	while (my ($k,$v) = each %args)
-	{
-		if (ref $v eq 'ARRAY')
-		{
-			$v = $v->[1];
-		}
-		$self->{'engine'}->eval("var $k;");
-		$self->{'engine'}->eval($k)->set(
-			JE::Object::String->new($self->{'engine'}, $v)
-			);
-	}
 }
 
 sub transform
@@ -84,9 +110,9 @@ sub transform
 	}
 	
 	my $name = $self->{'name'};
-	my $rv1  = $self->{'engine'}->eval("return_to_perl(JSON.transform($input, $name));");
+	my $rv1  = $self->engine_eval("return_to_perl(JSON.transform($input, $name));");
 
-	return $self->{'output'}.''; # stringify
+	return ($self->_last_return_value//'').''; # stringify
 }
 
 sub transform_structure
@@ -133,17 +159,23 @@ This module implements JsonT, a language for transforming JSON-like
 structures, analogous to XSLT in the XML world.
 
 JsonT is described at L<http://goessner.net/articles/jsont/>. JsonT is
-a profile of Javascript; this module uses the pure Perl Javascript
-implementation L<JE> for Javascript support. An alternative implementation
-using Mozilla's libjs is provided as L<JSON::T::SpiderMonkey>.
+a profile of Javascript; so JsonT needs a Javascript engine to actually
+work. This module provides the engine-neutral stuff, while L<JSON::T::JE>
+and L<JSON::T::SpiderMonkey> provide the necessary glue to hook it up to 
+a couple of Javascript engines. 
 
-This module provides a similar API to L<XML::Saxon::XSLT2>.
+JSON::T::JE uses the pure Perl Javascript implementation L<JE>.
 
-=head1 Constructor
+JSON::T::SpiderMonkey uses L<JavaScript::SpiderMonkey> which in turn is
+backed by Mozilla's libjs C library.
+
+This module tries to provide a similar API to L<XML::Saxon::XSLT2>.
+
+=head2 Constructor
 
 =over 4
 
-=item C<< JSON::T->new($code, $name) >>
+=item C<< new($code, $name) >>
 
 Constructs a new JSON::T transformation. $code is the JsonT Javascript
 code. As a JsonT file can contain multiple (potentially unrelated)
@@ -151,9 +183,20 @@ transformations, the name of the particular transformation you want to
 use should also be provided. If $name is omitted, then the name "_main"
 is assumed.
 
+If you wish to use a particular Javascript implementation, you can
+use, for example:
+
+  JSON::T::SpiderMonkey->new($code, $name)
+
+Otherwise 
+
+  JSON::T->new($code, $name)
+
+will try to pick a working implementation for you.
+
 =back
 
-=head1 Methods
+=head2 Methods
 
 =over 4
 
@@ -177,11 +220,33 @@ if the output is not a JSON string.
 
 =back
 
-=head1 Javascript Execution Environment
+The following methods also exist for compatibility with XML::Saxon::XSLT2,
+but are mostly useless:
 
-JSON::T is a profile of Javascript. This module runs scripts via
-L<JE>. As this is not a browser environment, many global objects
-familiar to browser Javascript developers are not available.
+=over
+
+=item C<< transform_document >>
+
+=item C<< messages >>
+
+=item C<< media_type >>
+
+=item C<< version >>
+
+=item C<< doctype_system >>
+
+=item C<< doctype_public >>
+
+=item C<< encoding >>
+
+=back
+
+=head2 Javascript Execution Environment
+
+JSON::T is a profile of Javascript, so is evaluated in an execution
+environment. As this is not a browser environment, many global objects
+familiar to browser Javascript developers are not available. (For example,
+C<window>, C<document>, C<navigator>, etc.)
 
 A single global object called "JSON" is provided with methods
 C<stringify> and C<parse> compatible with the well-known json2.js
@@ -191,6 +256,58 @@ implementation.
 
 A function C<print_to_perl> is provided which prints to Perl's
 STDOUT stream.
+
+=head1 SUBCLASSING
+
+Two subclasses are provided: L<JSON::T::JE> and L<JSON::T::SpiderMonkey>,
+but if you need to hook L<JSON::T> up to another Javascript engine, it is
+relatively simple. Just create a Perl class which is a subclass of L<JSON::T>.
+This subclass must implement two required methods and should implement
+one optional method.
+
+=over
+
+=item C<< init >>
+
+Will be passed a newly created object (let's call it C<< $self >>). It is
+expected to initialise a Javascript execution context for C<< $self >>, and
+define two Javascript functions: C<return_to_perl> (which acts as a shim
+to C<< $self->_accept_return_value() >>) and C<print_to_perl> (which acts
+as a shim to C<print>). It must then call C<< SUPER::init >>.
+
+=item C<< engine_eval >>
+
+Will be passed an object (C<< $self >>) and a Javascript string. Must evaluate
+the string in the object's Javascript execution context.
+
+=item C<< parameters >>
+
+This one is optional to implement it. If you don't implement it, then users
+will get a warning message if they try to call C<< parameters >> on your
+subclass.
+
+Will be passed an object (C<< $self >>) and a hash of parameters, using the
+following format:
+
+  (
+    name1  => 'value1',
+    name2  => [ type2 => 'value2' ],
+    name3  => [ type3 => 'value3', hint => 'hint value' ],
+  )
+
+This should have the effect of setting:
+
+  var name1 = 'value1';
+  var name2 = 'value2';
+  var name3 = 'value3';
+
+in the object's Javascript execution context. Parameter types and additional
+hints may be used to set the correct types in Javascript.
+
+=back
+
+If you wish C<< JSON::T->new >> to know about your subclass, then push
+its name onto C<< @JSON::T::Implementations >>.
 
 =head1 BUGS
 
@@ -205,8 +322,6 @@ L<JSON::Hyper>, L<JSON::Schema>.
 
 JOM version: L<JSON::JOM>, L<JSON::JOM::Plugins::JsonT>.
 
-Requires: L<JSON>, L<JE>.
-
 =head1 AUTHOR
 
 Toby Inkster E<lt>tobyink@cpan.orgE<gt>.
@@ -218,10 +333,16 @@ JsonT (version 0.9) to do the heavy lifting.
 
 Copyright 2006 Stefan Goessner.
 
-Copyright 2008-2010 Toby Inkster.
+Copyright 2008-2011 Toby Inkster.
 
 Licensed under the Lesser GPL:
 L<http://creativecommons.org/licenses/LGPL/2.1/>.
+
+=head1 DISCLAIMER OF WARRANTIES
+
+THIS PACKAGE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
+MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
 =cut
 
