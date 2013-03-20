@@ -34,11 +34,14 @@ BEGIN
 	push @Implementations, qw/JSON::T::JE JSON::T::SpiderMonkey/;
 }
 
-sub DOES
 {
-	my ($class, $role) = @_;
-	return $role if $role eq 'XML::Saxon::XSLT2';
-	return $class->SUPER::DOES($role);
+	no warnings 'redefine';
+	sub DOES
+	{
+		my ($class, $role) = @_;
+		return $role if $role eq 'XML::Saxon::XSLT2';
+		return $class->SUPER::DOES($role);
+	}
 }
 
 sub new
