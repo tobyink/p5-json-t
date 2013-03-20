@@ -1,0 +1,20 @@
+@prefix :        <http://usefulinc.com/ns/doap#>.
+
+`JSON-T`
+	:shortdesc      "transform JSON using JsonT"@en;
+	:programming-language  "Perl", "Javascript";
+	:homepage       <https://metacpan.org/release/JSON-T>;
+	:download-page  <https://metacpan.org/release/JSON-T>;
+	:bug-database   <http://rt.cpan.org/Dist/Display.html?Queue=JSON-T>;
+	:repository     [a :HgRepository; :browse <https://bitbucket.org/tobyink/p5-json-t>];
+	:maintainer     cpan:TOBYINK;
+	:developer      cpan:TOBYINK, [a foaf:Person; foaf:name "Stefan Goessner"; foaf:homepage <http://goessner.net/>];
+	:documenter     cpan:TOBYINK;
+	:tester         cpan:TOBYINK;
+	:created        2010-07-29;
+	:license        <http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt>;
+	:category       [label "JSON"], [label "Transform"], [label "JsonT"], [label "ECMAScript"], [label "JavaScript"].
+
+cpan:TOBYINK
+	foaf:name       "Toby Inkster" ;
+	foaf:homepage   <http://tobyinkster.co.uk/>.
