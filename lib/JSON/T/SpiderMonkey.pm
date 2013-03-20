@@ -11,7 +11,7 @@ use parent qw[JSON::T];
 BEGIN
 {
 	$JSON::T::SpiderMonkey::AUTHORITY = 'cpan:TOBYINK';
-	$JSON::T::SpiderMonkey::VERSION   = '0.101';
+	$JSON::T::SpiderMonkey::VERSION   = '0.102';
 }
 
 sub init

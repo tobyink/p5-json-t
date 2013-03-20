@@ -11,7 +11,7 @@ use parent qw[JSON::T];
 BEGIN
 {
 	$JSON::T::JE::AUTHORITY = 'cpan:TOBYINK';
-	$JSON::T::JE::VERSION   = '0.101';
+	$JSON::T::JE::VERSION   = '0.102';
 }
 
 sub init

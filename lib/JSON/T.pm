@@ -14,7 +14,7 @@ use overload '""' => \&_to_string;
 BEGIN
 {
 	$JSON::T::AUTHORITY = 'cpan:TOBYINK';
-	$JSON::T::VERSION   = '0.101';
+	$JSON::T::VERSION   = '0.102';
 }
 
 our ($JSLIB, @Implementations);
