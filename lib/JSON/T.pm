@@ -1,7 +1,8 @@
 package JSON::T;
 
 use 5.010;
-use common::sense;
+use strict;
+use warnings;
 use utf8;
 
 use Class::Load qw[];
@@ -357,7 +358,7 @@ JsonT (version 0.9) to do the heavy lifting.
 
 Copyright 2006 Stefan Goessner.
 
-Copyright 2008-2011 Toby Inkster.
+Copyright 2008-2011, 2013 Toby Inkster.
 
 Licensed under the Lesser GPL:
 L<http://creativecommons.org/licenses/LGPL/2.1/>.
