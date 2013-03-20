@@ -1,3 +1,20 @@
+=head1 PURPOSE
+
+Basic tests.
+
+=head1 AUTHOR
+
+Toby Inkster E<lt>tobyink@cpan.orgE<gt>.
+
+=head1 COPYRIGHT AND LICENCE
+
+Copyright 2008-2011, 2013 Toby Inkster.
+
+Licensed under the Lesser GPL:
+L<http://creativecommons.org/licenses/LGPL/2.1/>.
+
+=cut
+
 use Test::More tests => 3;
 BEGIN { use_ok('JSON::T') };
 
