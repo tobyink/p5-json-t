@@ -6,7 +6,7 @@
 	:homepage       <https://metacpan.org/release/JSON-T>;
 	:download-page  <https://metacpan.org/release/JSON-T>;
 	:bug-database   <http://rt.cpan.org/Dist/Display.html?Queue=JSON-T>;
-	:repository     [a :HgRepository; :browse <https://bitbucket.org/tobyink/p5-json-t>];
+	:repository     [a :GitRepository; :browse <https://github.com/tobyink/p5-json-t>];
 	:maintainer     cpan:TOBYINK;
 	:developer      cpan:TOBYINK, [a foaf:Person; foaf:name "Stefan Goessner"; foaf:homepage <http://goessner.net/>];
 	:documenter     cpan:TOBYINK;
