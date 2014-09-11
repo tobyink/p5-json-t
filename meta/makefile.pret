@@ -1,0 +1,9 @@
+@prefix deps:  <http://ontologi.es/doap-deps#> .
+
+<http://purl.org/NET/cpan-uri/dist/JSON-T/project>
+	deps:runtime-recommendation      [ deps:on "JavaScript::SpiderMonkey"^^deps:CpanId ];
+	deps:runtime-requirement         [ deps:on "JSON 2.00"^^deps:CpanId ];
+	deps:runtime-requirement         [ deps:on "JE"^^deps:CpanId ];
+	deps:runtime-requirement         [ deps:on "Class::Load"^^deps:CpanId ];
+	deps:runtime-requirement         [ deps:on "Object::AUTHORITY"^^deps:CpanId ].
+
