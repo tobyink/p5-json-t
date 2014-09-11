@@ -63,3 +63,10 @@
 	changeset [
 		item "no common::sense"^^Update;
 	].
+
+`JSON-T 0.103 cpan:TOBYINK`
+	issued    2014-09-11;
+	changeset [
+		item "Switch to Dist::Inkt."^^Packaging;
+	].
+

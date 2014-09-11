@@ -12,7 +12,7 @@ use base qw[JSON::T];
 BEGIN
 {
 	$JSON::T::JE::AUTHORITY = 'cpan:TOBYINK';
-	$JSON::T::JE::VERSION   = '0.102';
+	$JSON::T::JE::VERSION   = '0.103';
 }
 
 sub init

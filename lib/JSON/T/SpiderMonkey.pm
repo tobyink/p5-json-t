@@ -12,7 +12,7 @@ use base qw[JSON::T];
 BEGIN
 {
 	$JSON::T::SpiderMonkey::AUTHORITY = 'cpan:TOBYINK';
-	$JSON::T::SpiderMonkey::VERSION   = '0.102';
+	$JSON::T::SpiderMonkey::VERSION   = '0.103';
 }
 
 sub init
