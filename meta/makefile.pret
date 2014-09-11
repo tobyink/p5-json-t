@@ -1,9 +1,0 @@
-# This file provides instructions for packaging.
-
-`JSON-T`
-	perl_version_from  m`JSON::T`;
-	version_from       m`JSON::T`;
-	readme_from        m`JSON::T`;
-	recommends         p`JavaScript::SpiderMonkey`;
-	requires           p`JSON 2.00`, p`JE`, p`Class::Load`, p`Object::AUTHORITY`.
-
