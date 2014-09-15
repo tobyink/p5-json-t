@@ -5,8 +5,6 @@ use utf8;
 
 package JSON::T;
 
-use JSON ();
-use Scalar::Util ();
 use overload '""' => \&_to_string;
 
 BEGIN
@@ -29,8 +27,8 @@ sub _load_lib
 BEGIN
 {
 	push @Implementations, qw/
-		JSON::T::JE
 		JSON::T::SpiderMonkey
+		JSON::T::JE
 	/;
 }
 
@@ -46,49 +44,47 @@ BEGIN
 
 sub new
 {
-	my ($class, $transformation_code, $transformation_name) = @_;
+	my $class = shift;
+	my ($transformation_code, $transformation_name) = @_;	
 	$transformation_name ||= '_main';
-
-	my $impl_class;
+	
 	if ($class eq __PACKAGE__)
 	{
 		require Module::Runtime;
-		IMPL: for my $i (@Implementations)
+		IMPL: for my $subclass (@Implementations)
 		{
-			if ( eval { Module::Runtime::use_module($i) } )
-			{
-				$impl_class = $i;
-				last IMPL;
-			}
-		}
-		
-		unless ($impl_class)
-		{
-			require Carp;
-			Carp::croak("cannot load any known Javascript engine");
+			next IMPL unless eval { Module::Runtime::use_module($subclass) };
+			$class = $subclass;
+			last IMPL;
 		}
 	}
-	else
+	
+	if ($class eq __PACKAGE__)
 	{
-		$impl_class = $class;
+		require Carp;
+		Carp::croak("cannot load any known Javascript engine");
 	}
 	
 	my $self = bless {
-		code           => $transformation_code ,
-		name           => $transformation_name ,
-		messages       => [],
-	}, $impl_class;
+		code      => $transformation_code ,
+		name      => $transformation_name ,
+		messages  => [],
+	}, $class;
+	
 	$self->init;
 	$self->engine_eval($transformation_code);
-	return $self;
+	
+	$self;
 }
 
 sub init
 {
-	my ($self) = @_;
+	my $self = shift;
+	
 	_load_lib;
 	$self->engine_eval($JSLIB);
-	return $self;
+	
+	$self;
 }
 
 sub engine_eval { require Carp; Carp::croak("must be implemented by subclass") }
@@ -96,49 +92,78 @@ sub parameters  { require Carp; Carp::carp("not implemented by subclass") }
 
 sub _accept_return_value
 {
-	my ($self, $value) = @_;
+	my $self = shift;
+	my ($value) = @_;
+	
 	$self->{return_value} = $value;
 }
 
 sub _last_return_value
 {
-	my ($self) = @_;
+	my $self = shift;
+	
 	$self->{return_value};
 }
 
 sub _to_string
 {
-	my ($self) = @_;
+	my $self = shift;
+	
 	return 'JsonT:#'.$self->{'name'};
+}
+
+sub _json_backend
+{
+	my $self = shift;
+	
+	$self->{'json_backend'} ||= eval {
+		require Cpanel::JSON::MaybeXS;
+		'Cpanel::JSON::MaybeXS';
+	};
+	$self->{'json_backend'} ||= do {
+		require JSON::PP;
+		'JSON::PP';
+	};
+	
+	$self->{'json_backend'};
 }
 
 sub transform
 {
-	my ($self, $input) = @_;
+	my $self = shift;
+	my ($input) = @_;
 	
-	if (Scalar::Util::blessed($input) and $input->isa('JSON::JOM::Node'))
+	if (ref $input)
 	{
-		$input = JSON::to_json($input, {convert_blessed=>1});
-	}
-	elsif (ref $input)
-	{
-		$input = JSON::to_json($input);
+		require Scalar::Util;
+		if (Scalar::Util::blessed($input) and $input->isa('JSON::JOM::Node'))
+		{
+			$input = $self->_json_backend->new->convert_blessed(1)->encode($input);
+		}
+		else
+		{
+			$input = $self->_json_backend->new->encode($input);
+		}
 	}
 	
 	my $name = $self->{'name'};
 	my $rv1  = $self->engine_eval("return_to_perl(JSON.transform($input, $name));");
 
-	return ($self->_last_return_value//'').''; # stringify
+	($self->_last_return_value // '') . ''; # stringify
 }
 
 sub transform_structure
 {
-	my ($self, $input, $debug) = @_;
+	my $self = shift;
+	my ($input, $debug) = @_;
+	
 	my $output = $self->transform($input);
 	eval 'use Test::More; Test::More::diag("\n${output}\n");'
 		if $debug;
-	return JSON::from_json($output);
+	
+	$self->_json_backend->new->decode($output);
 }
+
 *transform_document = \&transform_structure;
 
 # none of this is useful, but provided for XML::Saxon::XSLT2 compat.
@@ -146,11 +171,15 @@ sub messages
 {
 	return;
 }
+
 sub media_type
 {
-	my ($self, $default) = @_;
-	return $default;
+	my $self = shift;
+	my ($default) = @_;
+	
+	$default;
 }
+
 *version        = \&media_type;
 *doctype_system = \&media_type;
 *doctype_public = \&media_type;
@@ -368,7 +397,7 @@ JsonT (version 0.9) to do the heavy lifting.
 
 Copyright 2006 Stefan Goessner.
 
-Copyright 2008-2011, 2013 Toby Inkster.
+Copyright 2008-2011, 2013-2014 Toby Inkster.
 
 Licensed under the Lesser GPL:
 L<http://creativecommons.org/licenses/LGPL/2.1/>.

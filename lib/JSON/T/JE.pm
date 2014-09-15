@@ -1,61 +1,64 @@
-package JSON::T::JE;
-
 use 5.010;
 use strict;
 use warnings;
 use utf8;
 
-use JE;
+use JE ();
 
-use base qw[JSON::T];
+package JSON::T::JE;
 
-BEGIN
-{
-	$JSON::T::JE::AUTHORITY = 'cpan:TOBYINK';
-	$JSON::T::JE::VERSION   = '0.103';
-}
+our $AUTHORITY = 'cpan:TOBYINK';
+our $VERSION   = '0.103';
+our @ISA       = qw( JSON::T );
 
 sub init
 {
-	my ($self, @args) = @_;
+	my $self = shift;
+	my (@args) = @_;
 	
-	my $JS = $self->{engine} = JE->new;
+	my $JS = $self->{engine} = JE::->new;
 	
-	$JS->new_function("return_to_perl", sub
-		{
-			$self->_accept_return_value(@_);
-		});
-	$JS->new_function("print_to_perl", sub
-		{
-			print @_;
-		});
+	$JS->new_function("return_to_perl", sub {
+		$self->_accept_return_value(@_);
+	});
+	$JS->new_function("print_to_perl", sub {
+		print @_;
+	});
 
 	$self->SUPER::init(@args);
 }
 
 sub engine_eval
 {
-	my ($self, $code) = @_;
+	my $self = shift;
+	my ($code) = @_;
+	
 	$self->{engine}->eval($code);
+	
+	$self;
 }
 
 sub parameters
 {
-	my ($self, %args) = @_;
-	while (my ($k,$v) = each %args)
+	my $self = shift;
+	my (%args) = @_;
+	
+	for my $k (sort keys %args)
 	{
-		if (ref $v eq 'ARRAY')
-		{
-			$v = $v->[1];
-		}
-		$self->{'engine'}->eval("var $k;");
-		$self->{'engine'}->eval($k)->set(
-			JE::Object::String->new($self->{'engine'}, $v)
-			);
+		my $v = $args{$k};
+		$v = $v->[1] if ref $v eq 'ARRAY';
+		$self->engine_eval("var $k;");
+		$self->engine_eval($k)->set(JE::Object::String::->new($self->{'engine'}, $v));
 	}
 }
 
 1;
+
+__END__
+
+=pod
+
+=encoding utf-8
 
 =head1 NAME
 
@@ -91,7 +94,7 @@ Toby Inkster E<lt>tobyink@cpan.orgE<gt>.
 
 =head1 COPYRIGHT AND LICENCE
 
-Copyright 2008-2011, 2013 Toby Inkster.
+Copyright 2008-2011, 2013-2014 Toby Inkster.
 
 Licensed under the Lesser GPL:
 L<http://creativecommons.org/licenses/LGPL/2.1/>.
