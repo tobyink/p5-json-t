@@ -10,7 +10,7 @@ use overload '""' => \&_to_string;
 BEGIN
 {
 	$JSON::T::AUTHORITY = 'cpan:TOBYINK';
-	$JSON::T::VERSION   = '0.103';
+	$JSON::T::VERSION   = '0.104';
 }
 
 our ($JSLIB, @Implementations);

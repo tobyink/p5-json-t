@@ -70,3 +70,14 @@
 		item "Switch to Dist::Inkt."^^Packaging;
 	].
 
+`JSON-T 0.104 cpan:TOBYINK`
+	issued    2014-09-15;
+	changeset [
+		item "Drop dependency on Object::AUTHORITY."^^Update;
+		item "Use dynamic config so that if JavaScript::SpiderMonkey is installed, JE is not a dependency."^^Packaging;
+		item "Use dynamic config to depend on Cpanel::JSON::XS or JSON::PP, rather than JSON.pm."^^Packaging;
+		item "Use Module::Runtime instead of Class::Load."^^Change;
+		item "Lots of tidying up."^^Change;
+		item "Assign to @ISA instead of using base.pm."^^Change;
+		item "Copyright 2014."^^Documentation;
+	].

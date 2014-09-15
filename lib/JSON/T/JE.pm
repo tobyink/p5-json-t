@@ -8,7 +8,7 @@ use JE ();
 package JSON::T::JE;
 
 our $AUTHORITY = 'cpan:TOBYINK';
-our $VERSION   = '0.103';
+our $VERSION   = '0.104';
 our @ISA       = qw( JSON::T );
 
 sub init
