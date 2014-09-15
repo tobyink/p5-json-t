@@ -5,7 +5,6 @@ use strict;
 use warnings;
 use utf8;
 
-use Class::Load qw[];
 use JSON qw[];
 use Scalar::Util qw[];
 
@@ -52,21 +51,20 @@ sub new
 	my $impl_class;
 	if ($class eq __PACKAGE__)
 	{
+		require Module::Runtime;
 		IMPL: for my $i (@Implementations)
 		{
-			if (Class::Load::is_class_loaded($i)
-			or  Class::Load::try_load_class($i))
+			if ( eval { Module::Runtime::use_module($i) } )
 			{
 				$impl_class = $i;
 				last IMPL;
 			}
 		}
 		
-		# let Class::Load break the bad news
-		unless (defined $impl_class)
+		unless ($impl_class)
 		{
-			$impl_class = $Implementations[0];
-			Class::Load::load_class($impl_class);
+			require Carp;
+			Carp::croak("cannot load any known Javascript engine");
 		}
 	}
 	else
@@ -78,8 +76,7 @@ sub new
 		code           => $transformation_code ,
 		name           => $transformation_name ,
 		messages       => [],
-		}, $impl_class;
-	
+	}, $impl_class;
 	$self->init;
 	$self->engine_eval($transformation_code);
 	return $self;
@@ -93,8 +90,8 @@ sub init
 	return $self;
 }
 
-sub engine_eval { die "must be implemented by subclass" }
-sub parameters { warn "not implemented by subclass" } # non-fatal
+sub engine_eval { require Carp; Carp::croak("must be implemented by subclass") }
+sub parameters  { require Carp; Carp::carp("not implemented by subclass") }
 
 sub _accept_return_value
 {
