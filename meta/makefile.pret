@@ -4,6 +4,5 @@
 	deps:runtime-recommendation      [ deps:on "JavaScript::SpiderMonkey"^^deps:CpanId ];
 	deps:runtime-requirement         [ deps:on "JSON 2.00"^^deps:CpanId ];
 	deps:runtime-requirement         [ deps:on "JE"^^deps:CpanId ];
-	deps:runtime-requirement         [ deps:on "Module::Runtime"^^deps:CpanId ];
-	deps:runtime-requirement         [ deps:on "Object::AUTHORITY"^^deps:CpanId ].
+	deps:runtime-requirement         [ deps:on "Module::Runtime"^^deps:CpanId ].
 

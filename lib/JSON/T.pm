@@ -5,10 +5,8 @@ use utf8;
 
 package JSON::T;
 
-use JSON qw[];
-use Scalar::Util qw[];
-
-use Object::AUTHORITY;
+use JSON ();
+use Scalar::Util ();
 use overload '""' => \&_to_string;
 
 BEGIN
@@ -30,7 +28,10 @@ sub _load_lib
 
 BEGIN
 {
-	push @Implementations, qw/JSON::T::JE JSON::T::SpiderMonkey/;
+	push @Implementations, qw/
+		JSON::T::JE
+		JSON::T::SpiderMonkey
+	/;
 }
 
 {
