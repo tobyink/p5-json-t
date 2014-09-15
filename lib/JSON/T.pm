@@ -1,9 +1,9 @@
-package JSON::T;
-
 use 5.010;
 use strict;
 use warnings;
 use utf8;
+
+package JSON::T;
 
 use JSON qw[];
 use Scalar::Util qw[];
@@ -156,6 +156,15 @@ sub media_type
 *encoding       = \&media_type;
 
 1;
+
+#
+# Don't include __END__ here because we
+# have a __DATA__ section below the pod!
+#
+
+=pod
+
+=encoding utf-8
 
 =head1 NAME
 
