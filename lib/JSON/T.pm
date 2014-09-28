@@ -45,7 +45,7 @@ BEGIN
 sub new
 {
 	my $class = shift;
-	my ($transformation_code, $transformation_name) = @_;	
+	my ($transformation_code, $transformation_name) = @_;
 	$transformation_name ||= '_main';
 	
 	if ($class eq __PACKAGE__)

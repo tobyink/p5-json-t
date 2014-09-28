@@ -22,7 +22,7 @@ my $json = <<'JSON';
 {
 	"$transformation" : "http://buzzword.org.uk/2008/jsonGRDDL/jsont-sample#Person" ,
 	"name" : "Joe Bloggs" ,
-	"mbox" : "joe@example.net" 
+	"mbox" : "joe@example.net"
 }
 JSON
 
