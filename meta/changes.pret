@@ -80,4 +80,5 @@
 		item "Lots of tidying up."^^Change;
 		item "Assign to @ISA instead of using base.pm."^^Change;
 		item "Copyright 2014."^^Documentation;
+		item "Update example; no longer use JSON::JOM which I withdrew from CPAN."^^Documentation;
 	].
