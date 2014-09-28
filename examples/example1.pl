@@ -1,8 +1,9 @@
-use 5.010;
-use JSON::JOM;
+use strict;
+use warnings;
+use JSON::PP;
 use JSON::T;
 
-my $input = JSON::JOM::from_json(<<'JSON');
+my $input = JSON::PP->new->decode(<<'JSON');
 {
 	"$transformation": "http://buzzword.org.uk/2008/jsonGRDDL/jsont-sample#Person",
 	"name": "Joe Bloggs",
@@ -10,7 +11,7 @@ my $input = JSON::JOM::from_json(<<'JSON');
 }
 JSON
 
-my $transformation = <<'JSONT';
+my $transformation = JSON::T->new(<<'JSONT');
 var namePrefix = "";
 
 var People =
@@ -59,10 +60,9 @@ var Person =
 var _main = Person;
 JSONT
 
-my $T    = JSON::T->new($transformation);
-$T->parameters(namePrefix => 'Mr ');
+$transformation->parameters(namePrefix => 'Mr ');
 
-my $output = JSON::JOM::to_jom($T->transform_structure($input));
+print JSON::PP->new->pretty(1)->canonical(1)->encode(
+	$transformation->transform_structure($input),
+), "\n";
 
-say "#### $T";
-say $output->dump;
