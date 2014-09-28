@@ -33,9 +33,7 @@ sub engine_eval
 	my $self = shift;
 	my ($code) = @_;
 	
-	$self->{engine}->eval($code);
-	
-	$self;
+	return $self->{engine}->eval($code);
 }
 
 sub parameters
